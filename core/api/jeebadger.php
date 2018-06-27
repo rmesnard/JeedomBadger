@@ -31,13 +31,11 @@ $model = init('model');
 
 $readerid = $name;
 
-log::add('badger', 'debug', 'APi received ');
-
 //  /plugins/badger/core/api/jeebadger.php?apikey=...&name=BADGER1&ip=192.168.0.177&id=12345678&model=wiegand1&cmd=tag&value=70605040
+$datetime = date('Y-m-d H:i:s');
 
-
-$elogic = badger::byLogicalId($readerid, 'badger');
-if (!is_object($elogic)) {
+$elogicReader = badger::byLogicalId($readerid, 'badger');
+if (!is_object($elogicReader)) {
 
 	if (config::byKey('allowAllinclusion', 'badger') != 1) {
 		// Gestion des lecteurs inconnus
@@ -45,33 +43,64 @@ if (!is_object($elogic)) {
 		return true;
 	}
 	// Ajout du lecteur de badge si il n'existe pas et discover actif
-	$elogic = new badger();
-	$elogic->setEqType_name('badger');
-	$elogic->setLogicalId($readerid);
-	$elogic->setName($name);
-	$elogic->setConfiguration('ip',$ip);
-	$elogic->setConfiguration('model',$model);
-	$elogic->setConfiguration('type','reader');
-	$elogic->setCategory('security', 1);		
-	$elogic->save();
-	$elogic->generateCmds();
+	$elogicReader = new badger();
+	$elogicReader->setEqType_name('badger');
+	$elogicReader->setLogicalId($readerid);
+	$elogicReader->setName($name);
+	$elogicReader->setConfiguration('ip',$ip);
+	$elogicReader->setConfiguration('model',$model);
+	$elogicReader->setConfiguration('type','reader');
+	$elogicReader->setConfiguration('tagcount',0);
+	if ( $model == 'wiegand2')
+		$elogicReader->setConfiguration('pincount',0);
+	$elogicReader->setCategory('security', 1);		
+	$elogicReader->save();
+
 
 } else {
+	// Test si lecteur desactivé
+	if ( $elogicReader->getIsEnable()==false )
+		return true;
+
 	// Mise a jours des infos du lecteur de badge 
-	if (($model != $elogic->getConfiguration('model')) | ($ip != $elogic->getConfiguration('ip')) ) {
-		$elogic->setConfiguration('ip',$ip);
-		$elogic->setConfiguration('model',$model);
+	if (($model != $elogicReader->getConfiguration('model')) | ($ip != $elogicReader->getConfiguration('ip')) ) {
+		$elogicReader->setConfiguration('ip',$ip);
+		$elogicReader->setConfiguration('model',$model);
 		
-		$elogic->save();
+		$elogicReader->save();
 	}	
+
+	// Test si lecteur bloqué
+		
+	$tagcounter = intval($elogicReader->getConfiguration('tagcount','0'));
+	$taglimit = intval($elogicReader->getConfiguration('tagtrylimit','1'));
+	$pincounter = intval($elogicReader->getConfiguration('pincount','0'));
+	$pinlimit = intval($elogicReader->getConfiguration('pintrylimit','1'));
+	$timebloc = intval($elogicReader->getConfiguration('retrytimer','1'));
+
+	if (( $tagcounter >= $taglimit ) | ( $pincounter >= $pinlimit ))
+	{
+		$latsuse = new DateTime($elogicReader->getConfiguration('lastuse',$datetime));
+		$now = new DateTime("now");
+		$interval = date_diff($latsuse, $now);
+		
+
+		if ( $interval->i < $timebloc )
+		{
+			log::add('badger', 'error', 'Lecteur bloqué');
+			return true;
+		}
+
+	}
+
 }
 
-$readername = $elogic->getName();
+$readername = $elogicReader->getName();
 
 if($cmd == "tag")
 {
-	$badgeid = "BADGE".$value;
-	
+	$badgeid = "BADGE ".$value;
+
 	// Badge Présenté au lecteurs , ajout de ce badge si il n'existe pas et include actif
 	$elogic = badger::byLogicalId($badgeid, 'badger');
 	
@@ -82,43 +111,27 @@ if($cmd == "tag")
 			// Gestion des tags inconnus
 			log::add('badger', 'error', 'Badge : '.$value.' inconnu présenté sur le lecteur :'.$readername);
 		
-			// Update or Create Counter of wrong tag
-/*			
-			$elogic = badger::byLogicalId('BAD_TAG_COUNTER', 'badger');
-			if (!is_object($elogic)) {
-				$elogic = new badger();
-				$elogic->setEqType_name('badger');
-				$elogic->setLogicalId('BAD_TAG_COUNTER');
-				$elogic->setName('Erreurs de badge');
-				$elogic->setConfiguration('type','counter');
-				$elogic->setConfiguration('maxalerte',5);
-				$elogic->setConfiguration('maxblocking',20);
-				$elogic->setCategory('security', 1);		
-				$elogic->save();
+			$tagcounter = intval($elogicReader->getConfiguration('tagcount','0'));
+			$tagcounter++;
+
+			$elogicReader->setConfiguration('tagcount',strval($tagcounter));
+			$elogicReader->setConfiguration('lastuse',$datetime);
+			$elogicReader->save();
+
+			$taglimit = intval($elogicReader->getConfiguration('tagtrylimit','0'));
+			if ( $tagcounter >= $taglimit )
+			{
+				//$elogicReader->setIsEnable(false);
+				//$elogicReader->save();
+				$cmd = badgerCmd::byEqLogicIdCmdName($elogicReader->getId(),'TagTryLimit');
+				if (!is_object( $cmd )){
+					log::add('badger', 'error', 'Reader : '.$elogicReader->getName().' commande TagTryLimit introuvable.');
+					return false;
+				}
+				$cmd->event($datetime);	
 			}
 
-			$eqcounter = badgerCmd::byEqLogicIdAndLogicalId($elogic->getId(),'BAD_TAG_COUNTER_CMD');
-			if (!is_object($eqcounter))
-			{
-				$eqcounter = new badgerCmd();
-				$eqcounter->setLogicalId('BAD_TAG_COUNTER_CMD');
-				$eqcounter->setName('Compteur');
-				$eqcounter->setTemplate('dashboard', 'tile');
-				$eqcounter->setEqLogic_id($elogic->getId());
-				$eqcounter->setType('info');
-				$eqcounter->setSubType('numeric');
-				$eqcounter->setValue(0);	
-				$eqcounter->save();
-			}	
-			
-			$tagcounter = $eqcounter->getValue();
-			$tagcounter++;
-			$eqcounter->setValue($tagcounter);				
-			$eqcounter->setCollectDate($datetime);
-			$eqcounter->save();
-			$elogic->setConfiguration('compteur',$tagcounter);
-			$elogic->save();
-*/			
+
 			return true;
 		}
 
@@ -126,85 +139,127 @@ if($cmd == "tag")
 		$elogic = new badger();
 		$elogic->setEqType_name('badger');
 		$elogic->setLogicalId($badgeid);
-		$elogic->setName('Badge '.$value);
+		$elogic->setName($badgeid);
 		$elogic->setConfiguration('model','Tag RFID');
 		$elogic->setConfiguration('type','badge');
 		$elogic->setConfiguration('value',$value);
 		$elogic->setCategory('security', 1);		
 		$elogic->save();
-		$elogic->generateCmds();
+
+		return true;
 	}
-	else  {
+	else  
+	{
 		// le badge existe process des commandes
-		$datetime = date('Y-m-d 00:00:00');
+	// Test si badge desactivé
+	if ( $elogic->getIsEnable()==false )
+		return true;
+		
 		log::add('badger', 'info', 'Badge :'.$elogic->getName().' présenté sur le lecteur : '.$readername);
 		
-		foreach ( badgerCmd::byLogicalId('TAG_'.$elogic->getId()) as $cmd) {
-			$cmd->setCollectDate($datetime);
-			$cmd->event(0);				
+		// reset compteur code faux
+		if ($elogicReader->getConfiguration('tagcount','0')!='0' )
+		{
+			$elogicReader->setConfiguration('tagcount','0');
+			$elogicReader->save();
 		}
+
+		$cmd = badgerCmd::byEqLogicIdCmdName($elogic->getId(),'BadgerID');
+		if (!is_object( $cmd )){
+			log::add('badger', 'error', 'Badge : '.$elogic->getName().' commande BadgerID introuvable.');
+			return false;
+		}
+		$cmd->event($readername);	
+
+		$cmd = badgerCmd::byEqLogicIdCmdName($elogic->getId(),'Presentation');
+		if (!is_object( $cmd )){
+			log::add('badger', 'error', 'Badge : '.$elogic->getName().' commande Presentation introuvable.');
+			return false;
+		}			
+		$cmd->setCollectDate($datetime);
+		$cmd->event($datetime);				
+
 	}	
 }
 
 
 if($cmd == "pin")
 {
-	$badgeid = "CODE".$value;
-	// PIN Présenté au lecteurs 
-	$elogic = badger::byLogicalId($badgeid, 'badger');
 	
-	if (!is_object($elogic)) {
+	// PIN Présenté au lecteurs 
+	// Recherche parmis les code actif
+	$found = false;
+	foreach( badger::byType('badger',true) as $elogic )
+	 {
+		if ( $elogic->getConfiguration('type')=='code' )
+		{
+			if ( $elogic->getConfiguration('code')==$value )
+			{
+				$found = true;
+				break;
+			}
+		}
 
-		// Gestion des tags inconnus
+	 }
+
+	
+	if ($found==false) {
+
+		// Gestion des codes faux
 		log::add('badger', 'error', 'CODE : '.$value.' faux présenté sur le lecteur :'.$readername);
 	
-		// Update or Create Counter of wrong tag
-/*		
-		$elogic = badger::byLogicalId('BAD_PIN_COUNTER', 'badger');
-		if (!is_object($elogic)) {
-			$elogic = new badger();
-			$elogic->setEqType_name('badger');
-			$elogic->setLogicalId('BAD_PIN_COUNTER');
-			$elogic->setName('Codes Faux');
-			$elogic->setConfiguration('type','counter');
-			$elogic->setConfiguration('maxalerte',5);
-			$elogic->setConfiguration('maxblocking',20);
-			$elogic->setCategory('security', 1);		
-			$elogic->save();
+		$pincounter = intval($elogicReader->getConfiguration('pincount','0'));
+		$pincounter++;
+
+		$elogicReader->setConfiguration('pincount',strval($pincounter));
+		$elogicReader->setConfiguration('lastuse',$datetime);
+		$elogicReader->save();
+
+		$pinlimit = intval($elogicReader->getConfiguration('pintrylimit','0'));
+		if ( $pincounter >= $pinlimit )
+		{
+			//$elogicReader->setIsEnable(false);
+			//$elogicReader->save();
+			$cmd = badgerCmd::byEqLogicIdCmdName($elogicReader->getId(),'PinTryLimit');
+			if (!is_object( $cmd )){
+				log::add('badger', 'error', 'Reader : '.$elogicReader->getName().' commande PinTryLimit introuvable.');
+				return false;
+			}
+			$cmd->event($datetime);	
 		}
 
-		$eqcounter = badgerCmd::byEqLogicIdAndLogicalId($elogic->getId(),'BAD_PIN_COUNTER_CMD');
-		if (!is_object($eqcounter))
-		{
-			$eqcounter = new badgerCmd();
-			$eqcounter->setLogicalId('BAD_PIN_COUNTER_CMD');
-			$eqcounter->setName('Compteur');
-			$eqcounter->setTemplate('dashboard', 'tile');
-			$eqcounter->setEqLogic_id($elogic->getId());
-			$eqcounter->setType('info');
-			$eqcounter->setSubType('numeric');
-			$eqcounter->setValue(0);	
-			$eqcounter->save();
-		}	
-		
-		$tagcounter = $eqcounter->getValue();
-		$tagcounter++;
-		$eqcounter->setValue($tagcounter);				
-		$eqcounter->setCollectDate($datetime);
-		$eqcounter->save();
-		$elogic->setConfiguration('compteur',$tagcounter);
-		$elogic->save();
-*/
+		return true;
 	}
-	else  {
-		// process des commandes
-		$datetime = date('Y-m-d 00:00:00');
+	else  
+	{
+		// le code  existe process des commandes
+		// Test si code desactivé
+		if ( $elogic->getIsEnable()==false )
+			return true;
+		
 		log::add('badger', 'info', 'Code :'.$elogic->getName().' présenté sur le lecteur : '.$readername);
 		
-		foreach ( badgerCmd::byLogicalId('CODE_'.$elogic->getId()) as $cmd) {
-			$cmd->setCollectDate($datetime);
-			$cmd->event(0);				
+		// reset compteur code faux
+		if ($elogicReader->getConfiguration('pincount','0')!='0' )
+		{
+			$elogicReader->setConfiguration('pincount','0');
+			$elogicReader->save();
 		}
+
+		$cmd = badgerCmd::byEqLogicIdCmdName($elogic->getId(),'BadgerID');
+		if (!is_object( $cmd )){
+			log::add('badger', 'error', 'Code : '.$elogic->getName().' commande BadgerID introuvable.');
+			return false;
+		}
+		$cmd->event($readername);	
+
+		$cmd = badgerCmd::byEqLogicIdCmdName($elogic->getId(),'Presentation');
+		if (!is_object( $cmd )){
+			log::add('badger', 'error', 'Code : '.$elogic->getName().' commande Presentation introuvable.');
+			return false;
+		}			
+		$cmd->setCollectDate($datetime);
+		$cmd->event($datetime);		
 	}	
 }
 

@@ -183,7 +183,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		<a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer l'équipement}}</a>
 
 				<form class="form-horizontal">
-					<fieldset>								
+					<fieldset>						
+					
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Nom de l'équipement}}</label>
 							<div class="col-sm-2">
@@ -215,6 +216,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						</div>
 
 						<div class="showreader">
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ID}}</label>
+								<div class="col-sm-2">
+									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="logicalId" readonly="true" />
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{IP / Hostname}}</label>
 								<div class="col-sm-2">
@@ -230,16 +239,23 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Limite de tag inconnu}}</label>
+								<label class="col-sm-2 control-label">{{Temps de blocage}}</label>
 								<div class="col-sm-2">
-									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="tagtrylimit" placeholder="1" />
+									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retrytimer" placeholder="1" />
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Temps de blocage sur tag inconnu}}</label>
+								<label class="col-sm-2 control-label">{{Compteur de tag inconnu}}</label>
 								<div class="col-sm-2">
-									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="tagtrytimer" placeholder="1" />
+									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="tagcount" readonly="true" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Limite de tag inconnu}}</label>
+								<div class="col-sm-2">
+									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="tagtrylimit" placeholder="1" />
 								</div>
 							</div>
 
@@ -248,16 +264,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<div class="showpinreader">
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Limite de code faux}}</label>
+								<label class="col-sm-2 control-label">{{Compteur de code faux}}</label>
 								<div class="col-sm-2">
-									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="pintrylimit" placeholder="3" />
+									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="pincount" readonly="true" />
 								</div>
 							</div>
 
+
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Temps de blocage sur code faux}}</label>
+								<label class="col-sm-2 control-label">{{Limite de code faux}}</label>
 								<div class="col-sm-2">
-									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="pintrytimer" placeholder="1" />
+									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="pintrylimit" placeholder="3" />
 								</div>
 							</div>
 

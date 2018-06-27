@@ -31,38 +31,72 @@ class badger extends eqLogic {
 	
 	public function preInsert(){
 	
-	$pin = rand(0,9999)+10000;
-	$stpin = strval($pin);
-	$this->setConfiguration('code',substr($stpin,1));
-	$this->setConfiguration('type','code');
+	if ( $this->getConfiguration('type') == null )
+		{
+		$pin = rand(0,9999)+10000;
+		$stpin = strval($pin);
+		$this->setConfiguration('code',substr($stpin,1));
+		$this->setConfiguration('type','code');
 
-	$nbcode = 0;
-	foreach (badger::byType('badger') as $reader) {
-	if ($reader->getConfiguration('type') == 'code') 
-		$nbcode++;	
-	}
-	$readerid = 'CODE' . strval($nbcode);
-	$this->setLogicalId($readerid);
-
+		$nbcode = 0;
+		foreach (badger::byType('badger') as $reader) {
+		if ($reader->getConfiguration('type') == 'code') 
+			$nbcode++;	
+		}
+		$readerid = 'CODE ' . strval($nbcode);
+		$this->setLogicalId($readerid);
+		}
 	}
 
 	public function postSave() {
 				
-		if ($this->getConfiguration('type')=='badge')
+		// delete all cmds
+	/*	foreach (badgerCmd::byEqLogicId($this->getId())  as $cmd) {
+			$cmd->remove();
+		}	
+	*/
+		if (($this->getConfiguration('type')=='badge')|($this->getConfiguration('type')=='code'))
 		{	
-			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'Present');
+			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'Presentation');
 			if (!is_object($cmd))
-				$this->createCmd('Present',$this->getId(),'Present');	
+				$this->createCmd('Presentation',$this->getId(),'Presentation');	
+	
+			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'BadgerID');
+			if (!is_object($cmd))
+				$this->createCmd('BadgerID',$this->getId(),'BadgerID');	
 		}
 
-		if ($this->getConfiguration('type')=='code')
-		{	
-			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'Present');
+		if ($this->getConfiguration('type')=='reader')
+		{
+			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'TagTryLimit');
 			if (!is_object($cmd))
-				$this->createCmd('Present',$this->getId(),'Present');	
+				$this->createCmd('TagTryLimit',$this->getId(),'TagTryLimit');	
+
+			if ($this->getConfiguration('model','')=='wiegand2' ){
+				 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'PinTryLimit');
+				if (!is_object($cmd))
+					$this->createCmd('PinTryLimit',$this->getId(),'PinTryLimit');				
+			}
+
 		}		
 
 	}
+
+	public function preSave() {
+
+
+		if ($this->getConfiguration('type')=='reader')
+		{
+
+			if ($this->getIsEnable()==false)
+			{
+				$this->setConfiguration('tagcount','0');
+				if ($this->getConfiguration('model','')=='wiegand2' )
+					$this->setConfiguration('pincount','0');
+			}
+		}
+
+	}	
 	
 	public function preRemove() {
 
@@ -73,7 +107,7 @@ class badger extends eqLogic {
 
 	}	
 		
-	
+		
 	public function createCmd($cmdname,$eqlogic,$cmdlogic) {
 		
 		$cmd = new badgerCmd();
@@ -81,8 +115,8 @@ class badger extends eqLogic {
 		$cmd->setName($cmdname);
 		$cmd->setTemplate('dashboard', 'tile');
 		$cmd->setEqLogic_id($eqlogic);
-		$cmd->setType('action');
-		$cmd->setSubType('message');
+		$cmd->setType('info');
+		$cmd->setSubType('string');
 		$cmd->save();
 
 	}	
