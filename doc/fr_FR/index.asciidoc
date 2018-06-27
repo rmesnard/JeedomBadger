@@ -1,0 +1,12 @@
+:icons:
+== Ewwattch
+
+=== Description
+Ce plugin permet d'établir de recuperer les informations du superviseur Badger
+
+'''
+include::configuration.asciidoc[]
+
+'''
+=== FAQ
+include::faq.asciidoc[]

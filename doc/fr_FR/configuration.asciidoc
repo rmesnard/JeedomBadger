@@ -1,0 +1,52 @@
+=== Configuration du plugin
+
+Après téléchargement du plugin il vous faut l'activer, vous avez ensuite assez à la configuration de base du plugin : 
+
+image::../images/badger1.PNG[]
+
+Vous retrouvez ici la configuration de base : 
+
+* *IP du superviseur* : IP du superviseur sur le réseau
+* *Synchroniser* : Permet de synchroniser la liste des équipements sur le superviseur avec jeedom
+
+=== Configuration des équipements
+
+La configuration des équipements Ewwattch est accessible à partir du menu plugin : 
+
+image::../images/badger2.PNG[]
+
+Voilà à quoi ressemble la page du plugin Ewwattch (ici avec déjà quelques équipements) : 
+
+image::../images/badger3.PNG[]
+
+[icon="../images/plugin/tip.png"]
+[TIP]
+Comme à beaucoup d'endroit sur Jeedom, mettre la souris tout à gauche permet de faire apparaître un menu d'accès rapide (vous pouvez à partir de votre profils le laisser toujours visible)
+
+Une fois que vous cliquez sur l'un d'eux, vous obtenez : 
+
+image::../images/badger4.PNG[]
+
+
+Vous retrouvez ici toute la configuration de votre équipement : 
+
+* *Nom de l'équipement* : nom de votre équipement Badger
+* *Objet parent* : indique l'objet parent auquel appartient l'équipement
+* *Activer* : permet de rendre votre équipement actif
+* *Visible* : le rend visible sur le dashboard
+* *Catégorie* : les catégories de l'équipement (il peut appartenir à plusieurs catégories)
+* *ID* : ID logique de l'équipement dans le superviseur, il est recommandé de ne pas y toucher
+* *IP* : IP du superviseur (à titre indicatif pour le moment)
+
+En dessous vous retrouvez la configuration de l'équipement. : 
+
+* le nom affiché sur le dashboard
+* le sous-type
+* ID logique de la commande dans le superviseur, il est recommandé de ne pas y toucher
+* historiser : permet d'historiser la donnée
+* afficher : permet d'afficher la donnée sur le dashboard
+* unité : unité de la donnée (peut être vide)
+* min/max : bornes de la donnée (peuvent être vides)
+* configuration avancée (petites roues crantées) : permet d'afficher la configuration avancée de la commande (méthode d'historisation, widget...)
+* Tester : permet de tester la commande
+* supprimer (signe -) : permet de supprimer la commande

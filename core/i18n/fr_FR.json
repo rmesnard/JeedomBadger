@@ -1,0 +1,42 @@
+{
+    "plugins\/badger\/plugin_info\/info.xml": {
+        "Plugin de gestion de badges": "Plugin de gestion de badges",
+        "Aucune": "Aucune"
+    },
+    "plugins\/badger\/desktop\/php\/badger.php": {
+        "Rechercher": "Rechercher",
+        "Regenerer les commandes": "Regénerer les commandes",
+        "Général": "Général",
+        "Nom du lecteur de badge": "Nom du lecteur de badge",
+        "Nom": "Nom",
+        "Objet parent": "Objet parent",
+        "Aucun": "Aucun",
+        "Activer": "Activer",
+        "Visible": "Visible",
+        "Commandes": "Commandes",
+        "Sous-type": "Sous-type",
+        "ID": "ID",
+        "Options": "Options",
+        "Action": "Action",
+        "Supprimer": "Supprimer",
+        "Sauvegarder": "Sauvegarder",
+        "Mes badges": "Mes badges",
+        "Mes lecteurs de badges": "Mes lecteurs de badges",
+        "Mes codes": "Mes codes",
+        "Paramètres": "Paramètres"
+    },
+    "plugins\/badger\/plugin_info\/configuration.php": {
+        "IP du superviseur": "IP du superviseur",
+        "Synchroniser": "Synchroniser",
+        "Synchroniser mes équipements": "Synchroniser mes équipements",
+        "Synchronisation réussie": "Synchronisation réussie"
+    },
+    "plugins\/badger\/desktop\/js\/badger.js": {
+        "Historiser": "Historiser",
+        "Afficher": "Afficher",
+        "Tester": "Tester"
+    },
+    "plugins\/badger\/core\/class\/badger.class.php": {
+        "Erreur sur synchro badger ": "Erreur sur synchro badger "
+    }
+}

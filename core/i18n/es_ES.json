@@ -1,0 +1,41 @@
+{
+    "plugins/badger/plugin_info/info.xml": {
+        "Plugin pour le superviseur badger": "Plugin para el supervisor badger",
+        "Aucune": "Ninguna"
+    },
+    "plugins/badger/desktop/php/badger.php": {
+        "Rechercher": "Buscar",
+        "Mes équipements de Koubachi": "Mis dispositivos Koubachi",
+        "Général": "General",
+        "Nom de la plante": "Nombre de la planta",
+        "Nom": "Nombre",
+        "Objet parent": "Objeto padre",
+        "Aucun": "Ninguno",
+        "Activer": "Activar",
+        "Visible": "Visible",
+        "Commandes": "Comandos",
+        "Sous-type": "Subtipo",
+        "ID": "ID",
+        "Options": "Opciones",
+        "Action": "Acción",
+        "Supprimer": "Borrar",
+        "Sauvegarder": "Guardar",
+        "Mes équipements de Ewwattch": "Mis dispositivos de Ewwattch",
+        "Mes équipements de Badger": "Mis dispositivos de Ewwattch",
+        "Paramètres": "Parámetros "
+    },
+    "plugins/badger/plugin_info/configuration.php": {
+        "IP du superviseur": "IP del supervisor",
+        "Synchroniser": "Sincronizar",
+        "Synchroniser mes équipements": "Sincronizar mis dispositivos",
+        "Synchronisation réussie": "Sincronización exitosa"
+    },
+    "plugins/badger/desktop/js/badger.js": {
+        "Historiser": "Guardar historial",
+        "Afficher": "Mostrar",
+        "Tester": "Probar"
+    },
+    "plugins/badger/core/class/badger.class.php": {
+        "Erreur sur synchro badger ": "Error en sincronización badger"
+    }
+}
