@@ -177,7 +177,7 @@ if($cmd == "tag")
 			return false;
 		}			
 		$cmd->setCollectDate($datetime);
-		$cmd->event($datetime);				
+		$cmd->event($datetime.' - '.$readername);				
 
 	}	
 }
@@ -259,7 +259,7 @@ if($cmd == "pin")
 			return false;
 		}			
 		$cmd->setCollectDate($datetime);
-		$cmd->event($datetime);		
+		$cmd->event($datetime.' - '.$readername);		
 	}	
 }
 
