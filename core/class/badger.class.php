@@ -25,7 +25,7 @@ class badger extends eqLogic {
 	/*     * ***********************Methode static*************************** */
 
 	public function generateCmds() {
-		log::add('badger', 'debug', 'generateCmds');
+		
 
 	}
 	
@@ -45,6 +45,7 @@ class badger extends eqLogic {
 		}
 		$readerid = 'CODE ' . strval($nbcode);
 		$this->setLogicalId($readerid);
+		$this->setCategory('security', 1);	
 		}
 	}
 
@@ -71,6 +72,9 @@ class badger extends eqLogic {
 			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'ChangePin');
 			if (!is_object($cmd))
 				$this->createCmdmessage('ChangePin',$this->getId(),'ChangePin');	
+			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'GetPin');
+			if (!is_object($cmd))
+				$this->createCmdinfo('GetPin',$this->getId(),'GetPin');	
 			/*
 			http://xxxxx/core/api/jeeApi.php?apikey=xxxxxx&type=cmd&id=427&title=set&message=1234
 			*/
@@ -106,8 +110,25 @@ class badger extends eqLogic {
 			}
 		}
 
+		if ($this->getConfiguration('type')=='code')
+		{
+			$pincode = $this->getConfiguration('code','xxxx');
+			$this->updatePin($pincode);
+		}
+
 	}	
 	
+	public function updatePin($pincode){
+			$cmd = badgerCmd::byEqLogicIdCmdName($this->getId(),'GetPin');
+			if (!is_object( $cmd )){
+				log::add('badger', 'error', 'Code : '.$this->getName().' commande GetPin introuvable.');
+				return;
+			}			
+			$cmd->setCollectDate($datetime);
+			$cmd->event($pincode);			
+
+	}
+
 	public function preRemove() {
 
 		// delete all cmds
@@ -162,21 +183,25 @@ class badgerCmd extends cmd {
 
 	public function execute($_options = array()) {
 
-	if (isset($_options['title']) && isset($_options['message'])) {
-		$eqlogic = $this->getEqLogic();
-		if ( $_options['title']=='set' )
-			$pincode = $_options['message'];
-		else if ( $_options['title']=='rnd' ){
-			$pin = rand(0,9999)+10000;
-			$stpin = strval($pin);
-			$pincode =substr($stpin,1);
-		}
-		else
-			return;
+		if (isset($_options['title']) && isset($_options['message'])) 
+		{
+			$eqlogic = $this->getEqLogic();
+			if ( $_options['title']=='set' )
+				$pincode = $_options['message'];
+			else if ( $_options['title']=='rnd' )
+			{
+				$pin = rand(0,9999)+10000;
+				$stpin = strval($pin);
+				$pincode =substr($stpin,1);
+			}
+			else
+				return;
 
-		$eqlogic->setConfiguration('code',$pincode);
-		$eqlogic->save();
-		return ($pincode);
+			$eqlogic->setConfiguration('code',$pincode);
+			$eqlogic->save();
+
+			$eqlogic->updatePin($pincode);
+			return ($pincode);
 		}
 
 		return;
