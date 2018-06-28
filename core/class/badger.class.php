@@ -165,16 +165,18 @@ class badgerCmd extends cmd {
 	if (isset($_options['title']) && isset($_options['message'])) {
 		$eqlogic = $this->getEqLogic();
 		if ( $_options['title']=='set' )
-			$eqlogic->setConfiguration('code',$_options['message']);
+			$pincode = $_options['message'];
 		else if ( $_options['title']=='rnd' ){
 			$pin = rand(0,9999)+10000;
 			$stpin = strval($pin);
-			$eqlogic->setConfiguration('code',substr($stpin,1));
+			$pincode =substr($stpin,1);
 		}
 		else
 			return;
 
+		$eqlogic->setConfiguration('code',$pincode);
 		$eqlogic->save();
+		return ($pincode);
 		}
 
 		return;
