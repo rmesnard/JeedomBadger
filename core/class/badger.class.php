@@ -59,23 +59,33 @@ class badger extends eqLogic {
 		{	
 			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'Presentation');
 			if (!is_object($cmd))
-				$this->createCmd('Presentation',$this->getId(),'Presentation');	
+				$this->createCmdinfo('Presentation',$this->getId(),'Presentation');	
 	
 			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'BadgerID');
 			if (!is_object($cmd))
-				$this->createCmd('BadgerID',$this->getId(),'BadgerID');	
+				$this->createCmdinfo('BadgerID',$this->getId(),'BadgerID');	
+		}
+
+		if ($this->getConfiguration('type')=='code')
+		{	
+			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'ChangePin');
+			if (!is_object($cmd))
+				$this->createCmdmessage('ChangePin',$this->getId(),'ChangePin');	
+			/*
+			http://xxxxx/core/api/jeeApi.php?apikey=xxxxxx&type=cmd&id=427&title=set&message=1234
+			*/
 		}
 
 		if ($this->getConfiguration('type')=='reader')
 		{
 			 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'TagTryLimit');
 			if (!is_object($cmd))
-				$this->createCmd('TagTryLimit',$this->getId(),'TagTryLimit');	
+				$this->createCmdinfo('TagTryLimit',$this->getId(),'TagTryLimit');	
 
 			if ($this->getConfiguration('model','')=='wiegand2' ){
 				 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'PinTryLimit');
 				if (!is_object($cmd))
-					$this->createCmd('PinTryLimit',$this->getId(),'PinTryLimit');				
+					$this->createCmdinfo('PinTryLimit',$this->getId(),'PinTryLimit');				
 			}
 
 		}		
@@ -108,7 +118,7 @@ class badger extends eqLogic {
 	}	
 		
 		
-	public function createCmd($cmdname,$eqlogic,$cmdlogic) {
+	public function createCmdinfo($cmdname,$eqlogic,$cmdlogic) {
 		
 		$cmd = new badgerCmd();
 		$cmd->setLogicalId($cmdlogic);
@@ -121,6 +131,18 @@ class badger extends eqLogic {
 
 	}	
 
+	public function createCmdmessage($cmdname,$eqlogic,$cmdlogic) {
+		
+		$cmd = new badgerCmd();
+		$cmd->setLogicalId($cmdlogic);
+		$cmd->setName($cmdname);
+		$cmd->setTemplate('dashboard', 'tile');
+		$cmd->setEqLogic_id($eqlogic);
+		$cmd->setType('action');
+		$cmd->setSubType('message');
+		$cmd->save();
+
+	}	
 	
 	/*     * **********************Getteur Setteur*************************** */
 }
@@ -139,6 +161,22 @@ class badgerCmd extends cmd {
 	}
 
 	public function execute($_options = array()) {
+
+	if (isset($_options['title']) && isset($_options['message'])) {
+		$eqlogic = $this->getEqLogic();
+		if ( $_options['title']=='set' )
+			$eqlogic->setConfiguration('code',$_options['message']);
+		else if ( $_options['title']=='rnd' ){
+			$pin = rand(0,9999)+10000;
+			$stpin = strval($pin);
+			$eqlogic->setConfiguration('code',substr($stpin,1));
+		}
+		else
+			return;
+
+		$eqlogic->save();
+		}
+
 		return;
 	}
 
