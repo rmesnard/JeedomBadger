@@ -116,7 +116,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
 						echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
 						echo "<center>";
-						if ( $eqLogic->getConfiguration('model') == 'wiegand1'  )
+						if ( $eqLogic->getConfiguration('modelReader') == 'wiegand1'  )
 							echo '<img src="plugins/badger/doc/images/wiegand1.png" height="105" width="95" />';
 						else
 							echo '<img src="plugins/badger/doc/images/wiegand2.png" height="105" width="95" />';
@@ -234,7 +234,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Model}}</label>
 								<div class="col-sm-2">
-									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="model" readonly="true"  />
+									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="modelReader" readonly="true"  />
 								</div>
 							</div>
 
@@ -281,6 +281,20 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						</div>
 
 						<div class="showtag">
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Model}}</label>
+								<div class="col-sm-2">
+									<select id="sel_modelTag" class="eqLogicAttr form-control input-sm" data-l1key="configuration" data-l2key="modelTag">
+									<option value="Tag RFID">{{Tag RFID}}</option>
+									<option value="Carte RFID">{{Carte RFID}}</option>
+									<option value="Sticker RFID">{{Sticker RFID}}</option>
+									<option value="Mobile">{{Mobile}}</option>
+									<option value="Carte NFC">{{Carte NFC}}</option>
+								</select>
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Valeur}}</label>
 								<div class="col-sm-2">

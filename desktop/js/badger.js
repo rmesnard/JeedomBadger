@@ -21,7 +21,7 @@
         $('.showtag').hide();
         $('.showcode').hide();
 
-        if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=model]').value() == 'wiegand2')
+        if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=modelReader]').value() == 'wiegand2')
             $('.showpinreader').show();
         else
             $('.showpinreader').hide();

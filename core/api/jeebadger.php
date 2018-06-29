@@ -48,7 +48,7 @@ if (!is_object($elogicReader)) {
 	$elogicReader->setLogicalId($readerid);
 	$elogicReader->setName($name);
 	$elogicReader->setConfiguration('ip',$ip);
-	$elogicReader->setConfiguration('model',$model);
+	$elogicReader->setConfiguration('modelReader',$model);
 	$elogicReader->setConfiguration('type','reader');
 	$elogicReader->setConfiguration('tagcount',0);
 	if ( $model == 'wiegand2')
@@ -63,9 +63,9 @@ if (!is_object($elogicReader)) {
 		return true;
 
 	// Mise a jours des infos du lecteur de badge 
-	if (($model != $elogicReader->getConfiguration('model')) | ($ip != $elogicReader->getConfiguration('ip')) ) {
+	if (($model != $elogicReader->getConfiguration('modelReader')) | ($ip != $elogicReader->getConfiguration('ip')) ) {
 		$elogicReader->setConfiguration('ip',$ip);
-		$elogicReader->setConfiguration('model',$model);
+		$elogicReader->setConfiguration('modelReader',$model);
 		
 		$elogicReader->save();
 	}	
@@ -140,7 +140,7 @@ if($cmd == "tag")
 		$elogic->setEqType_name('badger');
 		$elogic->setLogicalId($badgeid);
 		$elogic->setName($badgeid);
-		$elogic->setConfiguration('model','Tag RFID');
+		$elogic->setConfiguration('modelTag','Tag RFID');
 		$elogic->setConfiguration('type','badge');
 		$elogic->setConfiguration('value',$value);
 		$elogic->setCategory('security', 1);		

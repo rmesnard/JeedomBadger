@@ -86,7 +86,7 @@ class badger extends eqLogic {
 			if (!is_object($cmd))
 				$this->createCmdinfo('TagTryLimit',$this->getId(),'TagTryLimit');	
 
-			if ($this->getConfiguration('model','')=='wiegand2' ){
+			if ($this->getConfiguration('modelReader','')=='wiegand2' ){
 				 $cmd = badgerCmd::byEqLogicIdAndLogicalId($this->getId(),'PinTryLimit');
 				if (!is_object($cmd))
 					$this->createCmdinfo('PinTryLimit',$this->getId(),'PinTryLimit');				
@@ -105,7 +105,7 @@ class badger extends eqLogic {
 			if ($this->getIsEnable()==false)
 			{
 				$this->setConfiguration('tagcount','0');
-				if ($this->getConfiguration('model','')=='wiegand2' )
+				if ($this->getConfiguration('modelReader','')=='wiegand2' )
 					$this->setConfiguration('pincount','0');
 			}
 		}
