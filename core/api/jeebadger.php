@@ -27,19 +27,25 @@ $ip = init('ip');
 $cmd = init('cmd');
 $value = init('value');
 $name = init('name');
-$model = init('model');
+//$model = init('model');
 
 $readerid = $name;
 
-//  /plugins/badger/core/api/jeebadger.php?apikey=...&name=BADGER1&ip=192.168.0.177&id=12345678&model=wiegand1&cmd=tag&value=70605040
+//  /plugins/badger/core/api/jeebadger.php?apikey=...&name=BADGER1&ip=192.168.0.177&model=wiegand1&cmd=tag&value=70605040
 $datetime = date('Y-m-d H:i:s');
+
+if($cmd == "test")
+{
+	log::add('badger', 'info', 'Command TEST ');
+	return true;
+}
 
 $elogicReader = badger::byLogicalId($readerid, 'badger');
 if (!is_object($elogicReader)) {
 
 	if (config::byKey('allowAllinclusion', 'badger') != 1) {
 		// Gestion des lecteurs inconnus
-		log::add('badger', 'error', 'Lecteur inconnu detecté IP : '.$ip.' MODEL : '.$model);
+		log::add('badger', 'error', 'Lecteur inconnu detecté : '.$readerid);
 		return true;
 	}
 	// Ajout du lecteur de badge si il n'existe pas et discover actif
@@ -48,7 +54,7 @@ if (!is_object($elogicReader)) {
 	$elogicReader->setLogicalId($readerid);
 	$elogicReader->setName($name);
 	$elogicReader->setConfiguration('ip',$ip);
-	$elogicReader->setConfiguration('modelReader',$model);
+	//$elogicReader->setConfiguration('modelReader',$model);
 	$elogicReader->setConfiguration('type','reader');
 	$elogicReader->setConfiguration('tagcount',0);
 	if ( $model == 'wiegand2')
@@ -63,9 +69,9 @@ if (!is_object($elogicReader)) {
 		return true;
 
 	// Mise a jours des infos du lecteur de badge 
-	if (($model != $elogicReader->getConfiguration('modelReader')) | ($ip != $elogicReader->getConfiguration('ip')) ) {
+	if ($ip != $elogicReader->getConfiguration('ip'))  {
 		$elogicReader->setConfiguration('ip',$ip);
-		$elogicReader->setConfiguration('modelReader',$model);
+		//$elogicReader->setConfiguration('modelReader',$model);
 		
 		$elogicReader->save();
 	}	

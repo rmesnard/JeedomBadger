@@ -751,6 +751,9 @@ void loop()
         else
         {
           wgPINCODE+= String(wgCODE);
+		  
+		  if (wgPINCODE.length() >24 )
+			wgPINCODE = "";
         }
       
        }

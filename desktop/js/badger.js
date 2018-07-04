@@ -15,32 +15,38 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-  $('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', function () {
-    if($(this).value()=='reader'){
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', function () {
+    if ($(this).value() == 'reader') {
         $('.showreader').show();
         $('.showtag').hide();
         $('.showcode').hide();
-
-        if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=modelReader]').value() == 'wiegand2')
-            $('.showpinreader').show();
-        else
-            $('.showpinreader').hide();
-
     }
-	if($(this).value()=='badge'){
+
+    if ($(this).value() == 'badge') {
         $('.showreader').hide();
         $('.showpinreader').hide();
         $('.showtag').show();
         $('.showcode').hide();
     }
-	if($(this).value()=='code'){
+    if ($(this).value() == 'code') {
         $('.showreader').hide();
         $('.showpinreader').hide();
         $('.showtag').hide();
         $('.showcode').show();
     }
-	
+
 });
+
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=modelReader]').on('change', function () {
+
+    if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=modelReader]').value() == 'wiegand2')
+        $('.showpinreader').show();
+    else
+        $('.showpinreader').hide();
+
+});
+
+
 
 
 $('.stopIncludeState').on('click', function () {

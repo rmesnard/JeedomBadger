@@ -234,7 +234,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Model}}</label>
 								<div class="col-sm-2">
-									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="modelReader" readonly="true"  />
+									<select id="sel_modelTag" class="eqLogicAttr form-control input-sm" data-l1key="configuration" data-l2key="modelReader">
+									<option value="wiegand1">{{Lecteur RFID}}</option>
+									<option value="wiegand2">{{Lecteur RFID + PinPad}}</option>
+								</select>
 								</div>
 							</div>
 
