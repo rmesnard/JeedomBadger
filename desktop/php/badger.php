@@ -249,14 +249,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Compteur de tag inconnu}}</label>
+								<label class="col-sm-2 control-label">{{Compteur de badge inconnu}}</label>
 								<div class="col-sm-2">
 									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="tagcount" readonly="true" />
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Limite de tag inconnu}}</label>
+								<label class="col-sm-2 control-label">{{Limite de badge inconnu}}</label>
 								<div class="col-sm-2">
 									<input id="inp_P" type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="tagtrylimit" placeholder="1" />
 								</div>

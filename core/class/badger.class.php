@@ -188,9 +188,21 @@ class badgerCmd extends cmd {
 			$eqlogic = $this->getEqLogic();
 			if ( $_options['title']=='set' )
 				$pincode = $_options['message'];
-			else if ( $_options['title']=='rnd' )
+			else if ( $_options['title']=='rnd4' )
 			{
 				$pin = rand(0,9999)+10000;
+				$stpin = strval($pin);
+				$pincode =substr($stpin,1);
+			}
+			else if ( $_options['title']=='rnd6' )
+			{
+				$pin = rand(0,999999)+1000000;
+				$stpin = strval($pin);
+				$pincode =substr($stpin,1);
+			}
+			else if ( $_options['title']=='rnd8' )
+			{
+				$pin = rand(0,99999999)+100000000;
 				$stpin = strval($pin);
 				$pincode =substr($stpin,1);
 			}
