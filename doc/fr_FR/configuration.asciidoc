@@ -13,7 +13,9 @@ Ces lecteurs sont disponible dans différents design a bas prix sur les sites ch
 image::../images/Screen3.png[]
 
 Plusieurs exemple de sketch arduino sont fourni ( voir la page de configuration du plug-in )
+
 === Arduino + Interface reseau ENC28J   	
+
 ( Testé sur Duemilanove 168/328 et Uno )
 Dans ce sketch 2 parametres sont a définir :  L'adresse IP du serveur Jeedom et le Numero de lecteur sur le reseau ( a incrémenter )
 
@@ -24,6 +26,7 @@ Câblage :
 image::../images/arduinowiring_enc28j60.png[]
 
 === Arduino + Interface reseau W5100 		
+
 ( Testé sur Uno et Mega 2560 )
 Dans ce sketch 2 parametres sont a définir :  L'adresse IP du serveur Jeedom et le Numero de lecteur sur le reseau ( a incrémenter )
 
