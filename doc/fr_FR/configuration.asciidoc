@@ -1,41 +1,42 @@
-=== Configuration du plugin
+= Configuration du plugin
 
 Après téléchargement du plugin il vous faut l'activer, aucune configuration n'est necessaire. Vous pouvez vous rendre immédiatement sur la page du plug-in apres activation pour gérer les équipements.
 
 
-=== Configuration du materiel
+= Configuration du materiel
 
 Ce plug-in s'interface avec des arduino / ESP connectés en réseau éxécutant un sketch spécifique. Sur ces arduino on connecte le lecteur de badge wiegand. Le protocol wiegand permet une longue distance de câble entre l'arduino et le lecteur.
 Les lecteurs de badge doivent supporter au moins un des protocoles wiegand 8,26 ou 34.  Les lecteurs peuvent etre RFID (125 Khz) ou NFC ( 13.56 Mhz) et pourvu ou non d'un clavier a code. 
 Exemple : https://www.zkteco.eu/index.php/categories-11/access-control-systems/rfid-external-readers
 Ces lecteurs sont disponible dans différents design a bas prix sur les sites chinois ou ebay ( Rechercher "wiegand"). 
-image::../images/screen2.JPG[]
+
+image::../images/screen2.png[]
 
 Plusieurs exemple de sketch arduino sont fourni ( voir la page de configuration du plug-in )
-- Arduino + Interface reseau ENC28J   	
+=== Arduino + Interface reseau ENC28J   	
 ( Testé sur Duemilanove 168/328 et Uno )
 Dans ce sketch 2 parametres sont a définir :  L'adresse IP du serveur Jeedom et le Numero de lecteur sur le reseau ( a incrémenter )
 
-image::../images/inosettings_enc28j60.JPG[]
+image::../images/inosettings_enc28j60.png[]
 
 Câblage :
 
-image::../images/arduinowiring_enc28j60.JPG[]
+image::../images/arduinowiring_enc28j60.png[]
 
-- Arduino + Interface reseau W5100 		
+=== Arduino + Interface reseau W5100 		
 ( Testé sur Uno et Mega 2560 )
 Dans ce sketch 2 parametres sont a définir :  L'adresse IP du serveur Jeedom et le Numero de lecteur sur le reseau ( a incrémenter )
 
-image::../images/inosettings_w5100.JPG[]
+image::../images/inosettings_w5100.png[]
 
 Câblage :
 
-image::../images/arduinowiring_w5100.JPG[]
+image::../images/arduinowiring_w5100.png[]
 
 
 
 
-=== Configuration des équipements
+= Configuration des équipements
 
 La configuration des équipements Badger est divisée en 4 sections : Configuration générale, Lecteurs, Badges et Codes. 
 
