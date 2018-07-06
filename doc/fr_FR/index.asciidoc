@@ -12,6 +12,7 @@ include::configuration.asciidoc[]
 '''
 include::fonctionement.asciidoc[]
 
-=== FAQ
+=== Infos techniques
 '''
-include::faq.asciidoc[]
+include::techtips.asciidoc[]
+

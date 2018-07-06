@@ -12,7 +12,7 @@ Ces lecteurs sont disponibles dans différents designs à bas prix sur les sites
 
 image::../images/Screen3.png[]
 
-Plusieurs exemples de sketch Arduino sont fourni (voir la page de configuration du plug-in)
+Des exemples de sketch Arduino sont fourni (voir la page de configuration du plug-in)
 
 === Arduino + Interface réseau ENC28J   	
 
@@ -35,6 +35,10 @@ image::../images/inosettings_w5100.png[]
 Câblage :
 
 image::../images/arduinowiring_w5100.png[]
+
+=== Jeedouino 		
+
+Pour les utilisateurs de Jeedouino, le sketch de celui-ci peut être facilement modifié pour inclure cette fonctionnalité. Dans ce cas les PIN 2 et 3 ne devront pas être utilisées par Jeedouino.
 
 Attention un lecteur RFID nécessite au moins du 9V voir du 12V s’il est muni d'un clavier. Une tension inférieure lui fera perdre en porté de lecture RFID.  Il est fortement déconseillé d'utiliser la broche VIN de l’Arduino pour alimenter le lecteur en cas de branchement en USB vous allez griller votre Arduino. 
 Le 12V peu être pris en amont de l’Arduino et utiliser une alimentation commune.

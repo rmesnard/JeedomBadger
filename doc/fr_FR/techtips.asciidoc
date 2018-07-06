@@ -10,7 +10,7 @@ Le format de lecteur Wiegand conditionne aussi les capacités de lecture de badg
 
 == Fonctionnement du clavier a code
 
-Le clavier a code utilise le protocole Wiegand 8bits. Il envoi le code des touches une par une. C'est donc l'Arduino qui va gérer cette saisie et envoyer le code complet à Jeedom.
+Le clavier a code utilise le protocole Wiegand 8bits. Il envoi le code des touches un par un. C'est donc l'Arduino qui va gérer cette saisie et envoyer le code complet à Jeedom.
 Pour ce faire il faut valider le code avec la touche "Entrée" sur le clavier. La touche "Escape" annule la saisie.
 Certain clavier a code Wiegand ont un fonctionnement différent, et nécessiterons l'adaptation du Sketch Arduino. (cf. Roadmap du plug-in sur le forum Jeedom).
 

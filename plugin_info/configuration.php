@@ -30,6 +30,14 @@ if (!isConnect('admin')) {
            <input type="checkbox" class="configKey" data-l1key="allowAllinclusion" />
        </div>
 	</div>
+	<div class="form-group">
+			<label class="col-lg-5 control-label">{{Sketch Arduino}}</label>
+            <div class="col-lg-4">
+			     <a class="btn btn-default" href="/../arduino/BadgerENC28J60/BadgerENC28J60.ino"><i class="fa fa-cloud-download"></i> {{Sketch pour Arduino + ENC28J60}}</a>
+				 <a class="btn btn-default" href="/../arduino/BadgerW5100/BadgerW5100.ino"><i class="fa fa-cloud-download"></i> {{Sketch pour Arduino + W5100}}</a>
+				 <a class="btn btn-default" href="/../arduino/JeedouinoLAN/JeedouinoLAN.ino"><i class="fa fa-cloud-download"></i> {{Sketch Jeedouino modifié}}</a>
+				</div>  
+	</div>
    </fieldset>
 </form>
 
