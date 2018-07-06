@@ -36,6 +36,9 @@ Câblage :
 
 image::../images/arduinowiring_w5100.png[]
 
+Attention un lecteur RFID necessite au moins du 9V voir du 12V si il est muni d'un clavier. Une tension inférieure lui fera perdre en porté de lecture RFID.  Il est fortement déconseillé d'utiliser la broche VIN de l'arduino pour alimenter le lecteur en cas de branchement en USB vous allez griller votre arduino. 
+Le 12V peu etre pris en amont de l'arduino et utiliser une alimentation commune.
+
 
 == Configuration des équipements
 
@@ -159,7 +162,7 @@ La commande "ChangePin" (type message string)  permet de définir ou de génére
 
 La commande "GetPin" (type info string) permet de récuperer la valeur courante du code.
 
-Un scenario possible : pour donner access temporairement a votre habitation a quelqu'un alors que vous n'avez pas accces a Jeedom :  déclenché par un sms , un scenario génére un code temporaire , l'active et renvoi sa valeur par sms. Le scenario desactive ce code au bout de 1 heure.
+Un scenario possible : pour donner acces temporairement a votre habitation a quelqu'un alors que vous n'avez pas acces a Jeedom :  déclenché par un sms , un scenario génére un code temporaire , l'active et renvoi sa valeur par sms. Le scenario desactive ce code au bout de 1 heure.
 Comme il n'est pas possible de creer des nouveaux codes. Au préalable on aura créé un code nommé "temporaire" que l'on aura desactivé.
 
 
