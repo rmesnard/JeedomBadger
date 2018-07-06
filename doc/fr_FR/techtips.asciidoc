@@ -1,0 +1,17 @@
+= Infos techniques
+
+== Technologie utilisée
+
+Les lecteurs Wiegand ont un fonctionnement très simple concernant la lecture de badge RFID ou NFC. Ils ne font que lire le numéro de série de la puce. Ainsi si le tag ou la carte contient d'autres informations celle-ci ne sont pas accessibles avec ce protocole.
+La lecture n'est pas protégée. Il est donc très facile de dupliquer et simuler ce numéro de série. 
+Les lecteurs Wiegand sont disponibles dans 2 principale fréquences :  125 KHz (RFID) et 13.56 Mhz (NFC) Cette fréquence détermine le type de badge utilisable. Il y a beaucoup plus de possibilité avec la fréquence 13.56 Mhz, car celle-ci est compatible avec les objets sans contacts usuels (téléphone portable, carte bancaire) et de nombreux format sont disponible pour les badges : Porte clé, Carte, Autocollant, Bague, Montres...
+La technologie NFC ouvre aussi plusieurs possibilités de sécurisation. (cf. Roadmap du plug-in sur le forum Jeedom).
+Le format de lecteur Wiegand conditionne aussi les capacités de lecture de badge. Par exemple, il m'a été impossible de lire un petit tag NFC sur un lecteur muni d'un clavier, alors qu'il était lu par la version sans clavier. Ceci est surement du a la taille de l'antenne dans le lecteur.
+
+== Fonctionnement du clavier a code
+
+Le clavier a code utilise le protocole Wiegand 8bits. Il envoi le code des touches une par une. C'est donc l'Arduino qui va gérer cette saisie et envoyer le code complet à Jeedom.
+Pour ce faire il faut valider le code avec la touche "Entrée" sur le clavier. La touche "Escape" annule la saisie.
+Certain clavier a code Wiegand ont un fonctionnement différent, et nécessiterons l'adaptation du Sketch Arduino. (cf. Roadmap du plug-in sur le forum Jeedom).
+
+

@@ -1,23 +1,23 @@
 = Configuration du plugin
 
-Après téléchargement du plugin il vous faut l'activer, aucune configuration n'est necessaire. Vous pouvez vous rendre immédiatement sur la page du plug-in apres activation pour gérer les équipements.
+Après téléchargement du plugin il vous faut l'activer, aucune configuration n'est nécessaire. Vous pouvez vous rendre immédiatement sur la page du plug-in après activation pour gérer les équipements.
 
 
-== Configuration du materiel
+== Configuration du matériel
 
-Ce plug-in s'interface avec des arduino / ESP connectés en réseau éxécutant un sketch spécifique. Sur ces arduino on connecte le lecteur de badge wiegand. Le protocol wiegand permet une longue distance de câble entre l'arduino et le lecteur.
-Les lecteurs de badge doivent supporter au moins un des protocoles wiegand 8,26 ou 34.  Les lecteurs peuvent etre RFID (125 Khz) ou NFC ( 13.56 Mhz) et pourvu ou non d'un clavier a code. 
+Ce plug-in s'interface avec des Arduino / ESP connectés en réseau exécutants un sketch spécifique. Sur ces Arduino on connecte le lecteur de badge wiegand. Le protocole wiegand permet une longue distance de câble entre l’Arduino et le lecteur.
+Les lecteurs de badge doivent supporter au moins un des protocoles wiegand 8,26 ou 34.  Les lecteurs peuvent être RFID (125 KHz) ou NFC (13.56 Mhz) et pourvu ou non d'un clavier a code. 
 Exemple : https://www.zkteco.eu/index.php/categories-11/access-control-systems/rfid-external-readers
-Ces lecteurs sont disponible dans différents design a bas prix sur les sites chinois ou ebay ( Rechercher "wiegand"). 
+Ces lecteurs sont disponibles dans différents designs à bas prix sur les sites chinois ou eBay (Rechercher "wiegand"). 
 
 image::../images/Screen3.png[]
 
-Plusieurs exemple de sketch arduino sont fourni ( voir la page de configuration du plug-in )
+Plusieurs exemples de sketch Arduino sont fourni (voir la page de configuration du plug-in)
 
-=== Arduino + Interface reseau ENC28J   	
+=== Arduino + Interface réseau ENC28J   	
 
-( Testé sur Duemilanove 168/328 et Uno )
-Dans ce sketch 2 parametres sont a définir :  L'adresse IP du serveur Jeedom et le Numero de lecteur sur le reseau ( a incrémenter )
+(Testé sur Duemilanove 168/328 et Uno)
+Dans ce sketch 2 paramètres sont à définir :  L'adresse IP du serveur Jeedom et le numéro de lecteur sur le réseau (à incrémenter)
 
 image::../images/inosettings_enc28j60.png[]
 
@@ -25,10 +25,10 @@ Câblage :
 
 image::../images/arduinowiring_enc28j60.png[]
 
-=== Arduino + Interface reseau W5100 		
+=== Arduino + Interface réseau W5100 		
 
-( Testé sur Uno et Mega 2560 )
-Dans ce sketch 2 parametres sont a définir :  L'adresse IP du serveur Jeedom et le Numero de lecteur sur le reseau ( a incrémenter )
+(Testé sur Uno et Mega 2560)
+Dans ce sketch 2 paramètres sont à définir :  L'adresse IP du serveur Jeedom et le numéro de lecteur sur le réseau (à incrémenter)
 
 image::../images/inosettings_w5100.png[]
 
@@ -36,8 +36,8 @@ Câblage :
 
 image::../images/arduinowiring_w5100.png[]
 
-Attention un lecteur RFID necessite au moins du 9V voir du 12V si il est muni d'un clavier. Une tension inférieure lui fera perdre en porté de lecture RFID.  Il est fortement déconseillé d'utiliser la broche VIN de l'arduino pour alimenter le lecteur en cas de branchement en USB vous allez griller votre arduino. 
-Le 12V peu etre pris en amont de l'arduino et utiliser une alimentation commune.
+Attention un lecteur RFID nécessite au moins du 9V voir du 12V s’il est muni d'un clavier. Une tension inférieure lui fera perdre en porté de lecture RFID.  Il est fortement déconseillé d'utiliser la broche VIN de l’Arduino pour alimenter le lecteur en cas de branchement en USB vous allez griller votre Arduino. 
+Le 12V peu être pris en amont de l’Arduino et utiliser une alimentation commune.
 
 
 == Configuration des équipements
@@ -51,56 +51,56 @@ image::../images/Screen1.png[]
 La configuration générale dispose d'un raccourci vers la page de configuration/installation du plug-in, un lien vers la documentation, et un bouton pour activer ou désactiver le mode inclusion.
 Le mode inclusion permet d'ajouter automatiquement un nouveau lecteur de badge ou d'enregistrer un nouveau badge.
 
-Pour ajouter un nouveau lecteur de badge , il faudra donc suivre la procedure suivante :
-- Configurer l'arduino ( cf chapitre configuration du materiel )
+Pour ajouter un nouveau lecteur de badge, il faudra donc suivre la procédure suivante :
+- Configurer l’Arduino (cf. chapitre configuration du matériel)
 - Activer le mode inclusion sur Jeedom
 - Utiliser le nouveau lecteur de badge avec un badge.
-Le nouveau lecteur apparaitra alors dans la liste des lecteurs ( un rechargement de la page peut etre necessaire )
-Selectionnez ce nouveau lecteur pour le configurer ( cf chapitre suivant )
+Le nouveau lecteur apparaitra alors dans la liste des lecteurs (un rechargement de la page peut être nécessaire)
+Sélectionnez ce nouveau lecteur pour le configurer (cf. chapitre suivant)
 
 === Configuration des lecteurs
 
-La configuration des lecteurs permet d'ajuster certains parametres du lecteur. Elle doit etre effectuée et sauvegardé apres chaque ajout de nouveau lecteur.
+La configuration des lecteurs permet d'ajuster certains paramètres du lecteur. Elle doit être effectuée et sauvegardé après chaque ajout de nouveau lecteur.
 
 image::../images/Screen2.png[]
 
-* Le nom de l'equipement dans jeedom.
-* L'objet parent jeedom (optionel).
-* Activer / Desactiver ( un lecteur desactivé sera ignoré par le plug-in).
-* Visible / Invisible ( dans jeedom )
-* ID (ce parametre ne peu pas etre changé)  Cette ID est composé du mot BADGER et du numero de lecteur défini dans le sketch Arduino.
-* IP / HostName (ce parametre ne peu pas etre changé)  Cette IP est défini par le DHCP de votre réseau.
-* Le model determine la liste des fonctionalités du lecteur et les parametres disponibles pour celui-ci.
-* Le temps de blocage défini le temps (en minutes) pendant lequel jeedom ignorera les commandes provenant de ce lecteur lorsque celui-ci est "bloqué" (voir limite ci dessous).
-* Le compteur de badge inconnu (ce parametre ne peu pas être changé) affiche le nombre de badge inconnu présenté successivement. Ce compteur sera ré-initialisé par la présenation d'un badge valide si le lecteur n'est pas bloqué.
-* La Limite de badge inconnu défini le nombre maximum de badge inconnu qui peuvent être présenté avant blocage. Si cette limite est atteinte , le lecteur sera bloqué pendant le temps défini ci dessus.
-* Le compteur de code faux (ce parametre ne peu pas être changé) affiche le nombre de faux (inconnu) présenté successivement. Ce compteur sera ré-initialisé par la présenation d'un code valide si le lecteur n'est pas bloqué.
-* La Limite de code faux défini le nombre maximum de code faux (inconnu) qui peuvent être présenté avant blocage. Si cette limite est atteinte , le lecteur sera bloqué pendant le temps défini ci dessus.
+* Le nom de l'équipement dans jeedom.
+* L'objet parent jeedom (optionnel).
+* Activer / Désactiver (un lecteur désactivé sera ignoré par le plug-in).
+* Visible / Invisible (dans jeedom)
+* ID (ce paramètre ne peut pas être changé) Cette ID est composé du mot BADGER et du numéro de lecteur défini dans le sketch Arduino.
+* IP / HostName (ce paramètre ne peut pas être changé) Cette IP est définie par le DHCP de votre réseau.
+* Le model détermine la liste des fonctionnalités du lecteur et les paramètres disponibles pour celui-ci.
+* Le temps de blocage défini le temps (en minutes) pendant lequel jeedom ignorera les commandes provenant de ce lecteur lorsque celui-ci est "bloqué" (voir limite ci-dessous).
+* Le compteur de badge inconnu (ce paramètre ne peut pas être changé) affiche le nombre de badge inconnu présenté successivement. Ce compteur sera réinitialisé par la présentation d'un badge valide si le lecteur n'est pas bloqué.
+* La Limite de badge inconnu défini le nombre maximum de badge inconnu qui peuvent être présenté avant blocage. Si cette limite est atteinte, le lecteur sera bloqué pendant le temps défini ci-dessus.
+* Le compteur de code faux (ce paramètre ne peut pas être changé) affiche le nombre de faux (inconnu) présenté successivement. Ce compteur sera réinitialisé par la présentation d'un code valide si le lecteur n'est pas bloqué.
+* La Limite de code faux défini le nombre maximum de code faux (inconnu) qui peuvent être présenté avant blocage. Si cette limite est atteinte, le lecteur sera bloqué pendant le temps défini ci-dessus.
 
 
 === Configuration des badges
 
-La configuration des badges permet d'ajuster certains parametres. Elle doit etre effectuée et sauvegardé apres chaque ajout de nouveau badge.
+La configuration des badges permet d'ajuster certains paramètres. Elle doit être effectuée et sauvegardé après chaque ajout de nouveau badge.
 
 image::../images/Screen4.png[]
 
-* Le nom de l'equipement dans jeedom.
-* L'objet parent jeedom (optionel).
-* Activer / Desactiver ( un badge desactivé sera ignoré par le plug-in).
-* Visible / Invisible ( dans jeedom )
-* Le model est purement informatif dans cette version. Il servira dans une prochaine version du plug-in a determiner le type d'identification a utiliser.
-* La valeur (ce parametre ne peu pas être changé) affiche l'identifiant lu sur le badge en decimal.
+* Le nom de l'équipement dans jeedom.
+* L'objet parent jeedom (optionnel).
+* Activer / Désactiver (un badge désactivé sera ignoré par le plug-in).
+* Visible / Invisible (dans jeedom)
+* Le model est purement informatif dans cette version. Il servira dans une prochaine version du plug-in à déterminer le type d'identification à utiliser.
+* La valeur (ce paramètre ne peut pas être changé) affiche l'identifiant lu sur le badge en décimal.
 
 === Configuration des codes
 
-La configuration des codes permet d'ajuster certains parametres. Elle doit etre effectuée et sauvegardé apres chaque ajout de nouveau code.
+La configuration des codes permet d'ajuster certains paramètres. Elle doit être effectuée et sauvegardé après chaque ajout de nouveau code.
 
 image::../images/Screen5.png[]
 
-* Le nom de l'equipement dans jeedom.
-* L'objet parent jeedom (optionel).
-* Activer / Desactiver ( un badge desactivé sera ignoré par le plug-in).
-* Visible / Invisible ( dans jeedom )
+* Le nom de l'équipement dans jeedom.
+* L'objet parent jeedom (optionnel).
+* Activer / Désactiver (un badge désactivé sera ignoré par le plug-in).
+* Visible / Invisible (dans jeedom)
 * La valeur du code secret. La longueur maximum est de 24 chiffres.
 
 Les codes ne sont pas créés par inclusion automatique. Il faut utiliser le bouton "Ajouter" pour créer un nouveau code.
