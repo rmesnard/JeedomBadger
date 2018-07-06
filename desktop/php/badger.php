@@ -137,7 +137,21 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
 						echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
 						echo "<center>";
-						echo '<img src="plugins/badger/doc/images/badge1.png" height="105" width="95" />';
+						if ( $eqLogic->getConfiguration('modelTag') == 'Tag RFID'  )
+							echo '<img src="plugins/badger/doc/images/badge1.png" height="105" width="95" />';
+						elseif (( $eqLogic->getConfiguration('modelTag') == 'Carte RFID'  ) | ( $eqLogic->getConfiguration('modelTag') == 'Carte NFC'  ) ) 
+							echo '<img src="plugins/badger/doc/images/badge2.png" height="105" width="95" />';
+						elseif ( $eqLogic->getConfiguration('modelTag') == 'Tag NFC'  ) 
+							echo '<img src="plugins/badger/doc/images/badge3.png" height="105" width="95" />';
+						elseif ( $eqLogic->getConfiguration('modelTag') == 'Sticker'  )
+							echo '<img src="plugins/badger/doc/images/badge4.png" height="105" width="95" />';
+						elseif ( $eqLogic->getConfiguration('modelTag') == 'Mobile'  )
+							echo '<img src="plugins/badger/doc/images/badge5.png" height="105" width="95" />';
+						elseif ( $eqLogic->getConfiguration('modelTag') == 'Bague NFC'  )
+							echo '<img src="plugins/badger/doc/images/badge6.png" height="105" width="95" />';
+						else
+							echo '<img src="plugins/badger/doc/images/badge1.png" height="105" width="95" />';
+
 						echo "</center>";
 						echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
 						echo '</div>';
@@ -291,9 +305,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
 									<select id="sel_modelTag" class="eqLogicAttr form-control input-sm" data-l1key="configuration" data-l2key="modelTag">
 									<option value="Tag RFID">{{Tag RFID}}</option>
 									<option value="Carte RFID">{{Carte RFID}}</option>
-									<option value="Sticker RFID">{{Sticker RFID}}</option>
+									<option value="Sticker">{{Sticker}}</option>
 									<option value="Mobile">{{Mobile}}</option>
 									<option value="Carte NFC">{{Carte NFC}}</option>
+									<option value="Bague NFC">{{Bague NFC}}</option>
 								</select>
 								</div>
 							</div>
