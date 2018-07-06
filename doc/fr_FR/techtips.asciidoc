@@ -14,4 +14,13 @@ Le clavier a code utilise le protocole Wiegand 8bits. Il envoi le code des touch
 Pour ce faire il faut valider le code avec la touche "Entrée" sur le clavier. La touche "Escape" annule la saisie.
 Certain clavier a code Wiegand ont un fonctionnement différent, et nécessiterons l'adaptation du Sketch Arduino. (cf. Roadmap du plug-in sur le forum Jeedom).
 
+== Sources
+
+La version développement de ce plug-in est disponible sur GitHub : https://github.com/rmesnard/JeedomBadger
+
+Les sketch Arduino utilise les librairies :  
+Ethercard (ENC28J60)   	: https://github.com/jcw/ethercard
+Wiegand 				: https://github.com/monkeyboard/Wiegand-Protocol-Library-for-Arduino
+
+La version utilisée dans les sketchs fourni est disponible avec le plug-in (Liens sur la Page Configuration)
 
