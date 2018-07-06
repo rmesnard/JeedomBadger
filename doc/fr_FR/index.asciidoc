@@ -2,13 +2,13 @@
 == Badger
 
 === Description
-Ce plugin permet de connecter des lecteurs de badges (RFID/NFC) utilisant le protocol Wiegand (8/26/34). Ce plug-in necessite un composant tiers (Arduino) comme interface entre le lecteur et le réseau local.
+Ce plugin permet de connecter des lecteurs de badges (RFID/NFC) utilisant le protocole Wiegand (8/26/34). Ce plug-in nécessite un composant tiers (Arduino) comme interface entre le lecteur et le réseau local.
 
 === Configuration
 '''
 include::configuration.asciidoc[]
 
-=== Fonctionement
+=== Fonctionnement
 '''
 include::fonctionement.asciidoc[]
 
